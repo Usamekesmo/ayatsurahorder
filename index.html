@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار ترتيب آيات القرآن الكريم</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .test-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .verse-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .verse-box {
+            min-width: 200px;
+            max-width: 300px;
+            min-height: 120px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #eaf2f8;
+            transition: all 0.3s;
+            padding: 10px;
+            text-align: center;
+            word-break: break-word;
+        }
+        .verse-box:hover {
+            background-color: #d4e6f1;
+        }
+        .verse-box.empty {
+            background-color: #f2f2f2;
+            border: 2px dashed #95a5a6;
+        }
+        .answer-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .answer-box {
+            min-width: 200px;
+            max-width: 300px;
+            min-height: 120px;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background-color: #fadbd8;
+            position: relative;
+            padding: 10px;
+            text-align: center;
+            word-break: break-word;
+        }
+        .answer-box.empty {
+            background-color: #f2f2f2;
+            border: 2px dashed #95a5a6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .verse-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 12px;
+            color: #555;
+            background-color: rgba(255,255,255,0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .correct-verse-number {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 12px;
+            color: #3498db;
+            background-color: rgba(255,255,255,0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .result-section {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e8f8f5;
+            border-radius: 8px;
+        }
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin: 20px 0;
+            height: 30px;
+        }
+        .progress {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #2ecc71;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .loading {
+            display: none;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #3498db;
+        }
+        .question-counter {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .verse-box, .answer-box {
+                min-width: 150px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>اختبار ترتيب آيات القرآن الكريم</h1>
+        
+        <div class="input-section" id="inputSection">
+            <label for="userName">اسم المستخدم:</label>
+            <input type="text" id="userName" placeholder="أدخل اسمك">
+            
+            <label for="surahName">اختر السورة:</label>
+            <select id="surahName">
+                <option value="">-- جاري تحميل السور --</option>
+            </select>
+            
+            <label for="questionCount">عدد الأسئلة (مجموعات الآيات):</label>
+            <select id="questionCount">
+                <option value="1">1 سؤال</option>
+                <option value="3">3 أسئلة</option>
+                <option value="5" selected>5 أسئلة</option>
+                <option value="10">10 أسئلة</option>
+                <option value="15">15 سؤالاً</option>
+                <option value="20">20 سؤالاً</option>
+                <option value="25">25 سؤالاً</option>
+            </select>
+            
+            <div class="loading" id="loading">جاري تحميل البيانات من جوجل شيت...</div>
+            
+            <button id="startTest">بدء الاختبار</button>
+        </div>
+        
+        <div class="test-section" id="testSection">
+            <h2 id="testTitle"></h2>
+            <div class="question-counter" id="questionCounter"></div>
+            <p id="instructions">اضغط على الآيات بالترتيب الصحيح. الضغط الأول على أي آية تذهب إلى المربع الأول، وهكذا.</p>
+            
+            <div class="answer-boxes" id="answerBoxes"></div>
+            
+            <div class="verse-container" id="verseContainer"></div>
+            
+            <div class="controls">
+                <button id="submitTest">تأكيد الإجابة</button>
+                <button id="nextQuestion" style="display:none;">السؤال التالي</button>
+                <button id="resetTest">إعادة السؤال</button>
+            </div>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <h2>نتيجة الاختبار</h2>
+            <p id="userResult"></p>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <p id="scoreText"></p>
+            <button id="newTest">بدء اختبار جديد</button>
+        </div>
+    </div>
+
+    <script>
+        // متغيرات التطبيق
+        let googleSheetData = [];
+        let currentTest = [];
+        let selectedVerses = [];
+        let userAnswers = [];
+        let currentQuestion = 0;
+        let totalQuestions = 0;
+        let score = 0;
+        let totalCorrect = 0;
+        let userName = "";
+        let surahName = "";
+
+        // عناصر DOM
+        const inputSection = document.getElementById('inputSection');
+        const testSection = document.getElementById('testSection');
+        const resultSection = document.getElementById('resultSection');
+        const verseContainer = document.getElementById('verseContainer');
+        const answerBoxes = document.getElementById('answerBoxes');
+        const testTitle = document.getElementById('testTitle');
+        const questionCounter = document.getElementById('questionCounter');
+        const userResult = document.getElementById('userResult');
+        const scoreText = document.getElementById('scoreText');
+        const progressBar = document.getElementById('progressBar');
+        const loadingElement = document.getElementById('loading');
+        const surahSelect = document.getElementById('surahName');
+        const startTestBtn = document.getElementById('startTest');
+        const nextQuestionBtn = document.getElementById('nextQuestion');
+
+        // ترتيب السور حسب المصحف
+        const surahOrder = [
+            "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", 
+            "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", 
+            "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", 
+            "النحل", "الإسراء", "الكهف", "مريم", "طه", 
+            "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", 
+            "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", 
+            "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", 
+            "يس", "الصافات", "ص", "الزمر", "غافر", 
+            "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", 
+            "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", 
+            "الذاريات", "الطور", "النجم", "القمر", "الرحمن", 
+            "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", 
+            "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", 
+            "التحريم", "الملك", "القلم", "الحاقة", "المعارج", 
+            "نوح", "الجن", "المزمل", "المدثر", "القيامة", 
+            "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", 
+            "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", 
+            "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", 
+            "الشمس", "الليل", "الضحى", "الشرح", "التين", 
+            "العلق", "القدر", "البينة", "الزلزلة", "العاديات", 
+            "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", 
+            "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", 
+            "المسد", "الإخلاص", "الفلق", "الناس"
+        ];
+
+        // دالة لجلب البيانات من جوجل شيت
+        async function fetchGoogleSheetData() {
+            try {
+                loadingElement.style.display = 'block';
+                startTestBtn.disabled = true;
+                
+                const response = await fetch('https://script.google.com/macros/s/AKfycbx9s5Kiv5qrLJ68CgCJm6pG1y_SZK5NO9V4eln0TA-MsxEP89XFxowYt84ezRwN_cVK/exec');
+                const data = await response.json();
+                googleSheetData = data;
+                
+                populateSurahList();
+                
+                loadingElement.style.display = 'none';
+                startTestBtn.disabled = false;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                loadingElement.textContent = 'حدث خطأ أثناء جلب البيانات من جوجل شيت. يرجى المحاولة لاحقاً.';
+                loadingElement.style.color = '#e74c3c';
+            }
+        }
+        
+        // دالة لملء قائمة السور من البيانات مع الترتيب الصحيح
+        function populateSurahList() {
+            surahSelect.innerHTML = '';
+            
+            const surahNames = [...new Set(googleSheetData.map(item => item.surahname))];
+            
+            if (surahNames.length === 0) {
+                surahSelect.innerHTML = '<option value="">لا توجد بيانات متاحة</option>';
+                return;
+            }
+            
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "-- اختر سورة --";
+            surahSelect.appendChild(defaultOption);
+            
+            const orderedSurahs = surahOrder.filter(surah => surahNames.includes(surah));
+            
+            orderedSurahs.forEach(surah => {
+                const option = document.createElement('option');
+                option.value = surah;
+                option.textContent = surah;
+                surahSelect.appendChild(option);
+            });
+        }
+        
+        // بدء الاختبار
+        function startTest() {
+            userName = document.getElementById('userName').value.trim();
+            surahName = document.getElementById('surahName').value;
+            totalQuestions = parseInt(document.getElementById('questionCount').value);
+            
+            if (!userName) {
+                alert('الرجاء إدخال اسم المستخدم');
+                return;
+            }
+            
+            if (!surahName) {
+                alert('الرجاء اختيار سورة');
+                return;
+            }
+            
+            const surahData = googleSheetData.filter(item => item.surahname === surahName);
+            
+            if (surahData.length === 0) {
+                alert('لا توجد بيانات لهذه السورة');
+                return;
+            }
+            
+            const mergedData = mergeSurahData(surahData);
+            
+            // التحقق من وجود عدد كاف من الآيات
+            if (mergedData.ayanum.length < 5) {
+                alert(`سورة ${surahName} تحتوي فقط على ${mergedData.ayanum.length} آيات. تحتاج إلى سورة بها 5 آيات على الأقل`);
+                return;
+            }
+            
+            // حساب الحد الأقصى للأسئلة الممكنة
+            const maxPossibleQuestions = Math.floor((mergedData.ayanum.length - 4) / 1);
+            if (totalQuestions > maxPossibleQuestions) {
+                alert(`سورة ${surahName} تحتوي على عدد آيات يسمح بحد أقصى ${maxPossibleQuestions} سؤالاً فقط`);
+                document.getElementById('questionCount').value = maxPossibleQuestions;
+                totalQuestions = maxPossibleQuestions;
+            }
+            
+            currentTest = prepareTest(mergedData, totalQuestions);
+            currentQuestion = 0;
+            score = 0;
+            totalCorrect = 0;
+            
+            inputSection.style.display = 'none';
+            testSection.style.display = 'block';
+            resultSection.style.display = 'none';
+            
+            displayQuestion();
+        }
+        
+        // دالة لدمج بيانات السورة مع منع التكرار
+        function mergeSurahData(surahData) {
+            const merged = { 
+                surahname: surahData[0].surahname,
+                ayanum: [],
+                ayatext: []
+            };
+            
+            const uniqueVerses = new Set();
+            
+            surahData.forEach(row => {
+                for (let i = 1; i <= 5; i++) {
+                    const numKey = `ayanum${i}`;
+                    const textKey = `ayatext${i}`;
+                    
+                    if (row[numKey] && row[textKey]) {
+                        const verseId = `${row[numKey]}|${row[textKey]}`;
+                        
+                        if (!uniqueVerses.has(verseId)) {
+                            uniqueVerses.add(verseId);
+                            merged.ayanum.push(row[numKey]);
+                            merged.ayatext.push(row[textKey]);
+                        }
+                    }
+                }
+            });
+            
+            return merged;
+        }
+        
+        // تحضير الأسئلة مع ضمان عدم تكرار المجموعات
+        function prepareTest(surahData, totalQuestions) {
+            const questions = [];
+            const verses = [];
+            
+            for (let i = 0; i < surahData.ayanum.length; i++) {
+                verses.push({
+                    number: parseInt(surahData.ayanum[i]),
+                    text: surahData.ayatext[i]
+                });
+            }
+            
+            // ترتيب الآيات حسب رقمها
+            verses.sort((a, b) => a.number - b.number);
+            
+            // إنشاء جميع المجموعات الممكنة من 5 آيات متتالية
+            const allPossibleGroups = [];
+            for (let i = 0; i <= verses.length - 5; i++) {
+                allPossibleGroups.push(verses.slice(i, i + 5));
+            }
+            
+            // اختيار العدد المطلوب من المجموعات بشكل عشوائي
+            const selectedGroups = [];
+            const usedIndices = new Set();
+            
+            const totalGroups = Math.min(totalQuestions, allPossibleGroups.length);
+            
+            while (selectedGroups.length < totalGroups && selectedGroups.length < allPossibleGroups.length) {
+                const randomIndex = Math.floor(Math.random() * allPossibleGroups.length);
+                
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    selectedGroups.push(allPossibleGroups[randomIndex]);
+                }
+            }
+            
+            // تحضير الأسئلة
+            selectedGroups.forEach(group => {
+                questions.push({
+                    correctOrder: group.map(v => v.number),
+                    shuffledVerses: [...group].sort(() => 0.5 - Math.random())
+                });
+            });
+            
+            return questions;
+        }
+
+        // عرض السؤال الحالي
+        function displayQuestion() {
+            if (currentQuestion >= currentTest.length) {
+                showFinalResult();
+                return;
+            }
+            
+            testTitle.textContent = `اختبار ترتيب آيات سورة ${surahName}`;
+            questionCounter.textContent = `السؤال ${currentQuestion + 1} من ${totalQuestions}`;
+            
+            verseContainer.innerHTML = '';
+            answerBoxes.innerHTML = '';
+            
+            // إنشاء صناديق الإجابة
+            for (let i = 0; i < 5; i++) {
+                const answerBox = document.createElement('div');
+                answerBox.className = 'answer-box empty';
+                answerBox.dataset.order = i + 1;
+                
+                if (currentTest[currentQuestion]?.correctOrder[i]) {
+                    answerBox.dataset.number = currentTest[currentQuestion].correctOrder[i];
+                    answerBox.innerHTML = `<span class="verse-number">${i + 1}</span><span class="correct-verse-number">${currentTest[currentQuestion].correctOrder[i]}</span>`;
+                } else {
+                    answerBox.innerHTML = `<span class="verse-number">${i + 1}</span>`;
+                }
+                
+                answerBoxes.appendChild(answerBox);
+            }
+            
+            // عرض الآيات بشكل عشوائي
+            currentTest[currentQuestion].shuffledVerses.forEach(verse => {
+                const verseBox = document.createElement('div');
+                verseBox.className = 'verse-box';
+                verseBox.textContent = verse.text;
+                verseBox.dataset.number = verse.number;
+                verseBox.addEventListener('click', selectVerse);
+                verseContainer.appendChild(verseBox);
+            });
+            
+            userAnswers = [];
+            nextQuestionBtn.style.display = 'none';
+            document.getElementById('submitTest').style.display = 'block';
+        }
+
+        // اختيار آية
+        function selectVerse(e) {
+            const verseNumber = parseInt(e.target.dataset.number);
+            const verseText = e.target.textContent;
+            
+            if (userAnswers.includes(verseNumber)) return;
+            
+            const emptyBox = answerBoxes.querySelector('.answer-box.empty');
+            
+            if (emptyBox) {
+                const order = parseInt(emptyBox.dataset.order);
+                userAnswers[order - 1] = verseNumber;
+                emptyBox.innerHTML = `<span class="verse-number">${order}</span>${verseText}<span class="correct-verse-number">${verseNumber}</span>`;
+                emptyBox.className = 'answer-box';
+                emptyBox.dataset.number = verseNumber;
+                
+                e.target.style.display = 'none';
+            }
+        }
+
+        // تقديم الإجابات
+        function submitTest() {
+            if (userAnswers.length < 5) {
+                alert('الرجاء ترتيب جميع الآيات قبل تقديم الإجابات');
+                return;
+            }
+            
+            let correct = 0;
+            const correctOrder = currentTest[currentQuestion].correctOrder;
+            
+            for (let i = 0; i < correctOrder.length; i++) {
+                if (userAnswers[i] === correctOrder[i]) {
+                    correct++;
+                }
+            }
+            
+            totalCorrect += correct;
+            
+            // عرض النتيجة
+            const percentage = Math.round((correct / correctOrder.length) * 100);
+            alert(`إجابتك صحيحة لـ ${correct} من أصل 5 آيات (${percentage}%)`);
+            
+            if (currentQuestion < totalQuestions - 1) {
+                nextQuestionBtn.style.display = 'block';
+                document.getElementById('submitTest').style.display = 'none';
+            } else {
+                showFinalResult();
+            }
+        }
+
+        // الانتقال للسؤال التالي
+        function nextQuestion() {
+            currentQuestion++;
+            displayQuestion();
+        }
+
+        // عرض النتيجة النهائية
+        function showFinalResult() {
+            testSection.style.display = 'none';
+            resultSection.style.display = 'block';
+            
+            const totalPossible = totalQuestions * 5;
+            score = Math.round((totalCorrect / totalPossible) * 100);
+            
+            userResult.textContent = `${userName}، نتيجتك النهائية هي:`;
+            scoreText.textContent = `${score}% (${totalCorrect} من أصل ${totalPossible})`;
+            progressBar.style.width = `${score}%`;
+            
+            if (score >= 90) {
+                scoreText.className = 'correct';
+                scoreText.textContent += ' - ممتاز! حفظك رائع';
+            } else if (score >= 70) {
+                scoreText.className = 'correct';
+                scoreText.textContent += ' - جيد جداً';
+            } else if (score >= 50) {
+                scoreText.className = 'correct';
+                scoreText.textContent += ' - مقبول، يمكنك التحسين';
+            } else {
+                scoreText.className = 'incorrect';
+                scoreText.textContent += ' - تحتاج إلى مزيد من المراجعة';
+            }
+        }
+
+        // إعادة السؤال الحالي
+        function resetTest() {
+            displayQuestion();
+        }
+
+        // بدء اختبار جديد
+        function newTest() {
+            resultSection.style.display = 'none';
+            inputSection.style.display = 'block';
+        }
+
+        // جلب البيانات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', fetchGoogleSheetData);
+
+        // أحداث الأزرار
+        document.getElementById('startTest').addEventListener('click', startTest);
+        document.getElementById('submitTest').addEventListener('click', submitTest);
+        document.getElementById('resetTest').addEventListener('click', resetTest);
+        document.getElementById('newTest').addEventListener('click', newTest);
+        document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
+    </script>
+</body>
+</html>
