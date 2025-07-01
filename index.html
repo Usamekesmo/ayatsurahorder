@@ -4,122 +4,237 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختبار ترتيب آيات القرآن الكريم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- إضافة خطوط جوجل العربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Amiri:wght@400;700&family=Lateef&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #27ae60;
+            --primary-hover: #2ecc71;
+            --secondary-color: #3498db;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --telegram-color: #0088cc;
+            --telegram-hover: #0077b5;
+            --verse-color: #1a5276;
+            --verse-bg: #ebf5fb;
+            --gold-color: #d4af37;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Tajawal', 'Arial', sans-serif;
             background-color: #f5f5f5;
             margin: 0;
             padding: 20px;
             text-align: center;
+            color: #333;
+            line-height: 1.8;
+            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
         }
+        
         .container {
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
         }
+        
+        h1, h2, h3, h4 {
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+            font-family: 'Amiri', serif;
+        }
+        
         h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: var(--verse-color);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
+        
+        h1::after, h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 3px;
+        }
+        
         .input-section {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 25px;
+            padding: 25px;
             background-color: #f9f9f9;
-            border-radius: 8px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-right: 5px solid var(--secondary-color);
         }
+        
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-weight: bold;
+            color: var(--dark-color);
+            text-align: right;
+            font-size: 18px;
         }
+        
         input, select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 16px;
+            transition: all 0.3s;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #fff;
         }
+        
+        input:focus, select:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+        }
+        
         button {
-            background-color: #27ae60;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 4px;
+            padding: 14px 30px;
+            font-size: 18px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 5px;
+            transition: all 0.3s;
+            margin: 10px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Amiri', serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+        
         button:hover {
-            background-color: #2ecc71;
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
         button:disabled {
             background-color: #95a5a6;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
+        
         .test-section {
             display: none;
-            margin-top: 20px;
+            margin-top: 25px;
+            animation: fadeIn 0.5s ease;
         }
+        
         .verse-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 30px;
         }
+        
         .verse-box {
-            min-width: 200px;
-            max-width: 300px;
-            min-height: 120px;
-            border: 2px solid #3498db;
-            border-radius: 8px;
+            min-width: 250px;
+            max-width: 350px;
+            min-height: 160px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
-            background-color: #eaf2f8;
+            background-color: var(--verse-bg);
             transition: all 0.3s;
-            padding: 10px;
+            padding: 20px;
             text-align: center;
             word-break: break-word;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            font-family: 'Lateef', serif;
+            font-size: 24px;
+            color: var(--verse-color);
+            line-height: 1.8;
         }
+        
         .verse-box:hover {
             background-color: #d4e6f1;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
         }
+        
         .verse-box.empty {
             background-color: #f2f2f2;
             border: 2px dashed #95a5a6;
         }
+        
+        .verse-box.hidden {
+            display: none;
+        }
+        
         .answer-boxes {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 30px;
         }
+        
         .answer-box {
-            min-width: 200px;
-            max-width: 300px;
-            min-height: 120px;
-            border: 2px solid #e74c3c;
-            border-radius: 8px;
+            min-width: 250px;
+            max-width: 350px;
+            min-height: 160px;
+            border: 2px solid var(--danger-color);
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             background-color: #fadbd8;
             position: relative;
-            padding: 10px;
+            padding: 20px;
             text-align: center;
             word-break: break-word;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-family: 'Lateef', serif;
+            font-size: 24px;
+            color: var(--verse-color);
+            line-height: 1.8;
         }
+        
         .answer-box.empty {
             background-color: #f2f2f2;
             border: 2px dashed #95a5a6;
@@ -128,92 +243,397 @@
             align-items: center;
             justify-content: center;
         }
+        
+        .quran-bracket {
+            font-family: 'Amiri', serif;
+            font-size: 32px;
+            color: var(--gold-color);
+            margin: 0 5px;
+        }
+        
+        .quran-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            color: var(--gold-color);
+            font-size: 24px;
+            font-family: 'Amiri', serif;
+        }
+        
+        .quran-separator::before,
+        .quran-separator::after {
+            content: "❀";
+            margin: 0 15px;
+            color: var(--primary-color);
+        }
+        
+        .verse-details {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #f8f9fa;
+            border-right: 5px solid #3498db;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        
+        .user-answer-item {
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-family: 'Lateef', serif;
+        }
+        
+        .correct-answer {
+            background-color: #e8f8f5;
+            border-right: 4px solid #27ae60;
+        }
+        
+        .wrong-answer {
+            background-color: #fadbd8;
+            border-right: 4px solid #e74c3c;
+        }
+        
         .verse-number {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            font-size: 12px;
+            top: 10px;
+            left: 10px;
+            font-size: 28px;
             color: #555;
-            background-color: rgba(255,255,255,0.7);
-            padding: 2px 5px;
-            border-radius: 3px;
+            background-color: rgba(255,255,255,0.9);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
         .correct-verse-number {
             position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 12px;
-            color: #3498db;
-            background-color: rgba(255,255,255,0.7);
-            padding: 2px 5px;
-            border-radius: 3px;
+            bottom: 10px;
+            right: 10px;
+            font-size: 28px;
+            color: var(--secondary-color);
+            background-color: rgba(255,255,255,0.9);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
         .result-section {
             display: none;
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 25px;
+            padding: 30px;
             background-color: #e8f8f5;
-            border-radius: 8px;
+            border-radius: 15px;
+            animation: fadeIn 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #d5f5e3;
         }
+        
         .correct {
-            color: #27ae60;
+            color: var(--primary-color);
             font-weight: bold;
+            font-size: 24px;
         }
+        
         .incorrect {
-            color: #e74c3c;
+            color: var(--danger-color);
             font-weight: bold;
+            font-size: 24px;
         }
+        
+        .progress-container {
+            margin: 30px 0;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
         .progress-bar {
-            width: 100%;
-            background-color: #ecf0f1;
-            border-radius: 5px;
-            margin: 20px 0;
-            height: 30px;
-        }
-        .progress {
             height: 100%;
-            border-radius: 5px;
-            background-color: #2ecc71;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             width: 0%;
-            transition: width 0.5s;
+            transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            position: relative;
         }
+        
+        .progress-text {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
         .loading {
             display: none;
-            margin: 20px 0;
-            font-size: 18px;
-            color: #3498db;
+            margin: 30px 0;
+            font-size: 20px;
+            color: var(--secondary-color);
+            font-family: 'Amiri', serif;
         }
+        
         .question-counter {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: var(--dark-color);
             font-weight: bold;
+            background-color: #f2f2f2;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            font-family: 'Amiri', serif;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
+        
         .controls {
-            margin-top: 20px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
+        
+        .report-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #e8f4f8;
+            border-radius: 15px;
+            text-align: right;
+            white-space: pre-line;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d6eaf8;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .telegram-btn {
+            background-color: var(--telegram-color);
+        }
+        
+        .telegram-btn:hover {
+            background-color: var(--telegram-hover);
+        }
+        
+        .reset-btn {
+            background-color: var(--warning-color);
+        }
+        
+        .reset-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        #instructions {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            border-right: 5px solid var(--secondary-color);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 18px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        
+        .success-message {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.3s, fadeOut 0.5s 2.5s forwards;
+            font-family: 'Amiri', serif;
+            font-size: 20px;
+        }
+        
+        .mistakes-details {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            text-align: right;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .correct-verse {
+            color: var(--primary-color);
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #e8f8f5;
+            border-radius: 8px;
+            font-family: 'Lateef', serif;
+            font-size: 22px;
+        }
+        
+        .user-answer {
+            color: var(--danger-color);
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #fadbd8;
+            border-radius: 8px;
+            font-family: 'Lateef', serif;
+            font-size: 22px;
+        }
+        
+        .verse-info {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
+            font-size: 22px;
+            color: var(--verse-color);
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #ddd;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
         @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
             .verse-box, .answer-box {
-                min-width: 150px;
+                min-width: 100%;
                 max-width: 100%;
+                min-height: 120px;
+                font-size: 20px;
+            }
+            
+            button {
+                width: 100%;
+                margin: 8px 0;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .verse-number, .correct-verse-number {
+                font-size: 20px;
+            }
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #e0e0e0;
+                background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            }
+            
+            .container {
+                background-color: #1e1e1e;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                border-color: #333;
+            }
+            
+            .input-section, #instructions, .report-section, .mistakes-details {
+                background-color: #2d2d2d;
+                border-color: #444;
+            }
+            
+            .verse-box {
+                background-color: #2a3a4a;
+                color: #e0e0e0;
+                border-color: #3a5a6a;
+            }
+            
+            .answer-box {
+                background-color: #4a2a2a;
+                color: #e0e0e0;
+                border-color: #6a3a3a;
+            }
+            
+            .result-section {
+                background-color: #1e3a3a;
+                border-color: #2a4a4a;
+            }
+            
+            input, select {
+                background-color: #2d2d2d;
+                color: #e0e0e0;
+                border-color: #444;
+            }
+            
+            .correct-verse {
+                background-color: #1e3a3a;
+            }
+            
+            .user-answer {
+                background-color: #4a2a2a;
+            }
+            
+            label {
+                color: #e0e0e0;
+            }
+            
+            .question-counter {
+                background-color: #333;
+                color: #e0e0e0;
             }
         }
     </style>
 </head>
 <body>
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i> تم إرسال التقرير بنجاح
+    </div>
+    
     <div class="container">
-        <h1>اختبار ترتيب آيات القرآن الكريم</h1>
+        <h1><i class="fas fa-quran"></i> اختبار ترتيب آيات القرآن الكريم</h1>
         
         <div class="input-section" id="inputSection">
-            <label for="userName">اسم المستخدم:</label>
-            <input type="text" id="userName" placeholder="أدخل اسمك">
+            <label for="userName"><i class="fas fa-user"></i> اسم المستخدم:</label>
+            <input type="text" id="userName" placeholder="أدخل اسمك" required>
             
-            <label for="surahName">اختر السورة:</label>
-            <select id="surahName">
+            <label for="surahName"><i class="fas fa-book"></i> اختر السورة:</label>
+            <select id="surahName" required>
                 <option value="">-- جاري تحميل السور --</option>
             </select>
             
-            <label for="questionCount">عدد الأسئلة (مجموعات الآيات):</label>
+            <label for="questionCount"><i class="fas fa-question-circle"></i> عدد الأسئلة (مجموعات الآيات):</label>
             <select id="questionCount">
                 <option value="1">1 سؤال</option>
                 <option value="3">3 أسئلة</option>
@@ -224,416 +644,817 @@
                 <option value="25">25 سؤالاً</option>
             </select>
             
-            <div class="loading" id="loading">انتظر قليلاً حتى يتم تحميل الأسئلة ...</div>
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin"></i> انتظر قليلاً حتى يتم تحميل الأسئلة ...
+            </div>
             
-            <button id="startTest">بدء الاختبار</button>
+            <button id="startTest"><i class="fas fa-play"></i> بدء الاختبار</button>
         </div>
         
         <div class="test-section" id="testSection">
             <h2 id="testTitle"></h2>
             <div class="question-counter" id="questionCounter"></div>
-            <p id="instructions">اضغط على الآيات بالترتيب الصحيح. الضغط الأول على أي آية تذهب إلى المربع الأول، وهكذا.</p>
+            <p id="instructions">اضغط على الآيات بالترتيب الصحيح. الضغط الأول على أي آية تذهب إلى المربع الأول، وهكذا. يمكنك النقر على الآية في مربع الإجابة لإعادتها إلى مكانها الأصلي.</p>
             
             <div class="answer-boxes" id="answerBoxes"></div>
             
             <div class="verse-container" id="verseContainer"></div>
             
             <div class="controls">
-                <button id="submitTest">تأكيد الإجابة</button>
-                <button id="nextQuestion" style="display:none;">السؤال التالي</button>
-                <button id="resetTest">إعادة السؤال</button>
+                <button id="nextQuestion" style="display:none;"><i class="fas fa-forward"></i> السؤال التالي</button>
             </div>
         </div>
         
         <div class="result-section" id="resultSection">
-            <h2>نتيجة الاختبار</h2>
+            <h2><i class="fas fa-award"></i> نتيجة الاختبار</h2>
             <p id="userResult"></p>
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <span class="progress-text" id="progressText">0%</span>
+                </div>
             </div>
+            
             <p id="scoreText"></p>
-            <button id="newTest">بدء اختبار جديد</button>
+            
+            <div class="controls">
+                <button id="newTest"><i class="fas fa-sync-alt"></i> بدء اختبار جديد</button>
+            </div>
+            
+            <div class="report-section" id="reportContent" style="display:none;"></div>
+            
+            <div class="mistakes-details" id="mistakesDetails" style="display:none;"></div>
         </div>
     </div>
 
     <script>
         // متغيرات التطبيق
-        let googleSheetData = [];
-        let currentTest = [];
-        let selectedVerses = [];
-        let userAnswers = [];
-        let currentQuestion = 0;
-        let totalQuestions = 0;
-        let score = 0;
-        let totalCorrect = 0;
-        let userName = "";
-        let surahName = "";
-
-        // عناصر DOM
-        const inputSection = document.getElementById('inputSection');
-        const testSection = document.getElementById('testSection');
-        const resultSection = document.getElementById('resultSection');
-        const verseContainer = document.getElementById('verseContainer');
-        const answerBoxes = document.getElementById('answerBoxes');
-        const testTitle = document.getElementById('testTitle');
-        const questionCounter = document.getElementById('questionCounter');
-        const userResult = document.getElementById('userResult');
-        const scoreText = document.getElementById('scoreText');
-        const progressBar = document.getElementById('progressBar');
-        const loadingElement = document.getElementById('loading');
-        const surahSelect = document.getElementById('surahName');
-        const startTestBtn = document.getElementById('startTest');
-        const nextQuestionBtn = document.getElementById('nextQuestion');
-
-        // ترتيب السور حسب المصحف
-        const surahOrder = [
-            "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", 
-            "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", 
-            "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", 
-            "النحل", "الإسراء", "الكهف", "مريم", "طه", 
-            "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", 
-            "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", 
-            "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", 
-            "يس", "الصافات", "ص", "الزمر", "غافر", 
-            "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", 
-            "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", 
-            "الذاريات", "الطور", "النجم", "القمر", "الرحمن", 
-            "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", 
-            "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", 
-            "التحريم", "الملك", "القلم", "الحاقة", "المعارج", 
-            "نوح", "الجن", "المزمل", "المدثر", "القيامة", 
-            "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", 
-            "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", 
-            "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", 
-            "الشمس", "الليل", "الضحى", "الشرح", "التين", 
-            "العلق", "القدر", "البينة", "الزلزلة", "العاديات", 
-            "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", 
-            "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", 
-            "المسد", "الإخلاص", "الفلق", "الناس"
-        ];
-
-        // دالة لجلب البيانات من جوجل شيت
-        async function fetchGoogleSheetData() {
-            try {
-                loadingElement.style.display = 'block';
-                startTestBtn.disabled = true;
+        const App = {
+            googleSheetData: [],
+            currentTest: [],
+            selectedVerses: [],
+            userAnswers: [],
+            currentQuestion: 0,
+            totalQuestions: 0,
+            score: 0,
+            totalCorrect: 0,
+            userName: "",
+            surahName: "",
+            telegramBotToken: "6671455687:AAHemRdgQbmodCsqeIaha55qfPml_h9cjVQ",
+            chatId1: "@quranmytest", // القناة الأولى للتقرير الأساسي
+            chatId2: "@qurantest2", // القناة الثانية لتقرير الأخطاء
+            mistakesReport: [], // لتخزين الأخطاء
+            verseElements: {}, // لتخزين عناصر الآيات
+            userResponses: [], // لتخزين إجابات المستخدم لكل سؤال
+            
+            // ترتيب السور حسب المصحف
+            surahOrder: [
+                "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", 
+                "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", 
+                "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", 
+                "النحل", "الإسراء", "الكهف", "مريم", "طه", 
+                "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", 
+                "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", 
+                "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", 
+                "يس", "الصافات", "ص", "الزمر", "غافر", 
+                "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", 
+                "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", 
+                "الذاريات", "الطور", "النجم", "القمر", "الرحمن", 
+                "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", 
+                "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", 
+                "التحريم", "الملك", "القلم", "الحاقة", "المعارج", 
+                "نوح", "الجن", "المزمل", "المدثر", "القيامة", 
+                "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", 
+                "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", 
+                "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", 
+                "الشمس", "الليل", "الضحى", "الشرح", "التين", 
+                "العلق", "القدر", "البينة", "الزلزلة", "العاديات", 
+                "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", 
+                "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", 
+                "المسد", "الإخلاص", "الفلق", "الناس"
+            ],
+            
+            // عناصر DOM
+            elements: {},
+            
+            // تهيئة التطبيق
+            init: function() {
+                this.setupElements();
+                this.setupEventListeners();
+                this.fetchGoogleSheetData();
+            },
+            
+            // إعداد عناصر DOM
+            setupElements: function() {
+                this.elements = {
+                    inputSection: document.getElementById('inputSection'),
+                    testSection: document.getElementById('testSection'),
+                    resultSection: document.getElementById('resultSection'),
+                    verseContainer: document.getElementById('verseContainer'),
+                    answerBoxes: document.getElementById('answerBoxes'),
+                    testTitle: document.getElementById('testTitle'),
+                    questionCounter: document.getElementById('questionCounter'),
+                    userResult: document.getElementById('userResult'),
+                    scoreText: document.getElementById('scoreText'),
+                    progressBar: document.getElementById('progressBar'),
+                    progressText: document.getElementById('progressText'),
+                    loadingElement: document.getElementById('loading'),
+                    surahSelect: document.getElementById('surahName'),
+                    startTestBtn: document.getElementById('startTest'),
+                    nextQuestionBtn: document.getElementById('nextQuestion'),
+                    newTestBtn: document.getElementById('newTest'),
+                    reportContent: document.getElementById('reportContent'),
+                    successMessage: document.getElementById('successMessage'),
+                    userNameInput: document.getElementById('userName'),
+                    mistakesDetails: document.getElementById('mistakesDetails')
+                };
                 
-                const response = await fetch('https://script.google.com/macros/s/AKfycbx9s5Kiv5qrLJ68CgCJm6pG1y_SZK5NO9V4eln0TA-MsxEP89XFxowYt84ezRwN_cVK/exec');
-                const data = await response.json();
-                googleSheetData = data;
-                
-                populateSurahList();
-                
-                loadingElement.style.display = 'none';
-                startTestBtn.disabled = false;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                loadingElement.textContent = 'حدث خطأ أثناء جلب البيانات من جوجل شيت. يرجى المحاولة لاحقاً.';
-                loadingElement.style.color = '#e74c3c';
-            }
-        }
-        
-        // دالة لملء قائمة السور من البيانات مع الترتيب الصحيح
-        function populateSurahList() {
-            surahSelect.innerHTML = '';
-            
-            const surahNames = [...new Set(googleSheetData.map(item => item.surahname))];
-            
-            if (surahNames.length === 0) {
-                surahSelect.innerHTML = '<option value="">لا توجد بيانات متاحة</option>';
-                return;
-            }
-            
-            const defaultOption = document.createElement('option');
-            defaultOption.value = "";
-            defaultOption.textContent = "-- اختر سورة --";
-            surahSelect.appendChild(defaultOption);
-            
-            const orderedSurahs = surahOrder.filter(surah => surahNames.includes(surah));
-            
-            orderedSurahs.forEach(surah => {
-                const option = document.createElement('option');
-                option.value = surah;
-                option.textContent = surah;
-                surahSelect.appendChild(option);
-            });
-        }
-        
-        // بدء الاختبار
-        function startTest() {
-            userName = document.getElementById('userName').value.trim();
-            surahName = document.getElementById('surahName').value;
-            totalQuestions = parseInt(document.getElementById('questionCount').value);
-            
-            if (!userName) {
-                alert('الرجاء إدخال اسم المستخدم');
-                return;
-            }
-            
-            if (!surahName) {
-                alert('الرجاء اختيار سورة');
-                return;
-            }
-            
-            const surahData = googleSheetData.filter(item => item.surahname === surahName);
-            
-            if (surahData.length === 0) {
-                alert('لا توجد بيانات لهذه السورة');
-                return;
-            }
-            
-            const mergedData = mergeSurahData(surahData);
-            
-            // التحقق من وجود عدد كاف من الآيات
-            if (mergedData.ayanum.length < 5) {
-                alert(`سورة ${surahName} تحتوي فقط على ${mergedData.ayanum.length} آيات. تحتاج إلى سورة بها 5 آيات على الأقل`);
-                return;
-            }
-            
-            // حساب الحد الأقصى للأسئلة الممكنة
-            const maxPossibleQuestions = Math.floor((mergedData.ayanum.length - 4) / 1);
-            if (totalQuestions > maxPossibleQuestions) {
-                alert(`سورة ${surahName} تحتوي على عدد آيات يسمح بحد أقصى ${maxPossibleQuestions} سؤالاً فقط`);
-                document.getElementById('questionCount').value = maxPossibleQuestions;
-                totalQuestions = maxPossibleQuestions;
-            }
-            
-            currentTest = prepareTest(mergedData, totalQuestions);
-            currentQuestion = 0;
-            score = 0;
-            totalCorrect = 0;
-            
-            inputSection.style.display = 'none';
-            testSection.style.display = 'block';
-            resultSection.style.display = 'none';
-            
-            displayQuestion();
-        }
-        
-        // دالة لدمج بيانات السورة مع منع التكرار
-        function mergeSurahData(surahData) {
-            const merged = { 
-                surahname: surahData[0].surahname,
-                ayanum: [],
-                ayatext: []
-            };
-            
-            const uniqueVerses = new Set();
-            
-            surahData.forEach(row => {
-                for (let i = 1; i <= 5; i++) {
-                    const numKey = `ayanum${i}`;
-                    const textKey = `ayatext${i}`;
-                    
-                    if (row[numKey] && row[textKey]) {
-                        const verseId = `${row[numKey]}|${row[textKey]}`;
-                        
-                        if (!uniqueVerses.has(verseId)) {
-                            uniqueVerses.add(verseId);
-                            merged.ayanum.push(row[numKey]);
-                            merged.ayatext.push(row[textKey]);
-                        }
+                // التحقق من وجود جميع العناصر
+                for (const [key, element] of Object.entries(this.elements)) {
+                    if (!element) {
+                        console.error(`Element not found: ${key}`);
                     }
                 }
-            });
+            },
             
-            return merged;
-        }
-        
-        // تحضير الأسئلة مع ضمان عدم تكرار المجموعات
-        function prepareTest(surahData, totalQuestions) {
-            const questions = [];
-            const verses = [];
-            
-            for (let i = 0; i < surahData.ayanum.length; i++) {
-                verses.push({
-                    number: parseInt(surahData.ayanum[i]),
-                    text: surahData.ayatext[i]
-                });
-            }
-            
-            // ترتيب الآيات حسب رقمها
-            verses.sort((a, b) => a.number - b.number);
-            
-            // إنشاء جميع المجموعات الممكنة من 5 آيات متتالية
-            const allPossibleGroups = [];
-            for (let i = 0; i <= verses.length - 5; i++) {
-                allPossibleGroups.push(verses.slice(i, i + 5));
-            }
-            
-            // اختيار العدد المطلوب من المجموعات بشكل عشوائي
-            const selectedGroups = [];
-            const usedIndices = new Set();
-            
-            const totalGroups = Math.min(totalQuestions, allPossibleGroups.length);
-            
-            while (selectedGroups.length < totalGroups && selectedGroups.length < allPossibleGroups.length) {
-                const randomIndex = Math.floor(Math.random() * allPossibleGroups.length);
-                
-                if (!usedIndices.has(randomIndex)) {
-                    usedIndices.add(randomIndex);
-                    selectedGroups.push(allPossibleGroups[randomIndex]);
+            // إعداد مستمعي الأحداث
+            setupEventListeners: function() {
+                if (!this.elements.startTestBtn || !this.elements.newTestBtn || !this.elements.nextQuestionBtn) {
+                    console.error('Some elements are missing');
+                    return;
                 }
-            }
-            
-            // تحضير الأسئلة
-            selectedGroups.forEach(group => {
-                questions.push({
-                    correctOrder: group.map(v => v.number),
-                    shuffledVerses: [...group].sort(() => 0.5 - Math.random())
-                });
-            });
-            
-            return questions;
-        }
-
-        // عرض السؤال الحالي
-        function displayQuestion() {
-            if (currentQuestion >= currentTest.length) {
-                showFinalResult();
-                return;
-            }
-            
-            testTitle.textContent = `اختبار ترتيب آيات سورة ${surahName}`;
-            questionCounter.textContent = `السؤال ${currentQuestion + 1} من ${totalQuestions}`;
-            
-            verseContainer.innerHTML = '';
-            answerBoxes.innerHTML = '';
-            
-            // إنشاء صناديق الإجابة
-            for (let i = 0; i < 5; i++) {
-                const answerBox = document.createElement('div');
-                answerBox.className = 'answer-box empty';
-                answerBox.dataset.order = i + 1;
                 
-                if (currentTest[currentQuestion]?.correctOrder[i]) {
-                    answerBox.dataset.number = currentTest[currentQuestion].correctOrder[i];
-                    answerBox.innerHTML = `<span class="verse-number">${i + 1}</span><span class="correct-verse-number">${currentTest[currentQuestion].correctOrder[i]}</span>`;
+                this.elements.startTestBtn.addEventListener('click', () => this.startTest());
+                this.elements.nextQuestionBtn.addEventListener('click', () => this.nextQuestion());
+                this.elements.newTestBtn.addEventListener('click', () => this.newTest());
+                
+                // إدخال الاسم فقط الأحرف العربية والمسافات
+                if (this.elements.userNameInput) {
+                    this.elements.userNameInput.addEventListener('input', (e) => {
+                        e.target.value = e.target.value.replace(/[^ء-ي\s]/g, '');
+                    });
+                }
+            },
+            
+            // جلب البيانات من جوجل شيت
+            async fetchGoogleSheetData() {
+                try {
+                    this.showLoading(true);
+                    
+                    const response = await fetch('https://script.google.com/macros/s/AKfycbx9s5Kiv5qrLJ68CgCJm6pG1y_SZK5NO9V4eln0TA-MsxEP89XFxowYt84ezRwN_cVK/exec');
+                    const data = await response.json();
+                    this.googleSheetData = data;
+                    
+                    this.populateSurahList();
+                    this.showLoading(false);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    this.showLoading(false, 'حدث خطأ أثناء جلب البيانات من جوجل شيت. يرجى المحاولة لاحقاً.');
+                }
+            },
+            
+            // عرض/إخفاء حالة التحميل
+            showLoading: function(show, message = null) {
+                if (!this.elements.loadingElement) return;
+                
+                if (message) {
+                    this.elements.loadingElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+                    this.elements.loadingElement.style.color = '#e74c3c';
+                }
+                
+                this.elements.loadingElement.style.display = show ? 'block' : 'none';
+                if (this.elements.startTestBtn) {
+                    this.elements.startTestBtn.disabled = show;
+                }
+            },
+            
+            // ملء قائمة السور من البيانات مع الترتيب الصحيح
+            populateSurahList: function() {
+                if (!this.elements.surahSelect) return;
+                
+                this.elements.surahSelect.innerHTML = '';
+                
+                const surahNames = [...new Set(this.googleSheetData.map(item => item.surahname))];
+                
+                if (surahNames.length === 0) {
+                    this.elements.surahSelect.innerHTML = '<option value="">لا توجد بيانات متاحة</option>';
+                    return;
+                }
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = "-- اختر سورة --";
+                this.elements.surahSelect.appendChild(defaultOption);
+                
+                const orderedSurahs = this.surahOrder.filter(surah => surahNames.includes(surah));
+                
+                orderedSurahs.forEach(surah => {
+                    const option = document.createElement('option');
+                    option.value = surah;
+                    option.textContent = surah;
+                    this.elements.surahSelect.appendChild(option);
+                });
+            },
+            
+            // بدء الاختبار
+            startTest: function() {
+                this.userName = this.elements.userNameInput ? this.elements.userNameInput.value.trim() : "";
+                this.surahName = this.elements.surahSelect ? this.elements.surahSelect.value : "";
+                this.totalQuestions = parseInt(document.getElementById('questionCount') ? document.getElementById('questionCount').value : "5");
+                
+                if (!this.validateInputs()) return;
+                
+                const surahData = this.googleSheetData.filter(item => item.surahname === this.surahName);
+                const mergedData = this.mergeSurahData(surahData);
+                
+                // التحقق من وجود عدد كاف من الآيات
+                if (mergedData.ayanum.length < 5) {
+                    this.showAlert(`سورة ${this.surahName} تحتوي فقط على ${mergedData.ayanum.length} آيات. تحتاج إلى سورة بها 5 آيات على الأقل`);
+                    return;
+                }
+                
+                // حساب الحد الأقصى للأسئلة الممكنة
+                const maxPossibleQuestions = Math.floor((mergedData.ayanum.length - 4) / 1);
+                if (this.totalQuestions > maxPossibleQuestions) {
+                    this.showAlert(`سورة ${this.surahName} تحتوي على عدد آيات يسمح بحد أقصى ${maxPossibleQuestions} سؤالاً فقط`);
+                    if (document.getElementById('questionCount')) {
+                        document.getElementById('questionCount').value = maxPossibleQuestions;
+                    }
+                    this.totalQuestions = maxPossibleQuestions;
+                }
+                
+                this.currentTest = this.prepareTest(mergedData, this.totalQuestions);
+                this.currentQuestion = 0;
+                this.score = 0;
+                this.totalCorrect = 0;
+                this.mistakesReport = [];
+                this.userResponses = [];
+                
+                if (this.elements.inputSection) this.elements.inputSection.style.display = 'none';
+                if (this.elements.testSection) this.elements.testSection.style.display = 'block';
+                if (this.elements.resultSection) this.elements.resultSection.style.display = 'none';
+                
+                this.displayQuestion();
+            },
+            
+            // تحقق من صحة المدخلات
+            validateInputs: function() {
+                if (!this.userName) {
+                    this.showAlert('الرجاء إدخال اسم المستخدم');
+                    return false;
+                }
+                
+                if (this.userName.length < 2) {
+                    this.showAlert('اسم المستخدم يجب أن يكون على الأقل حرفين');
+                    return false;
+                }
+                
+                if (!this.surahName) {
+                    this.showAlert('الرجاء اختيار سورة');
+                    return false;
+                }
+                
+                return true;
+            },
+            
+            // عرض رسالة تنبيه
+            showAlert: function(message) {
+                alert(message);
+                return false;
+            },
+            
+            // دمج بيانات السورة مع منع التكرار
+            mergeSurahData: function(surahData) {
+                if (!surahData || surahData.length === 0) return { surahname: "", ayanum: [], ayatext: [] };
+                
+                const merged = { 
+                    surahname: surahData[0].surahname,
+                    ayanum: [],
+                    ayatext: []
+                };
+                
+                const uniqueVerses = new Set();
+                
+                surahData.forEach(row => {
+                    for (let i = 1; i <= 5; i++) {
+                        const numKey = `ayanum${i}`;
+                        const textKey = `ayatext${i}`;
+                        
+                        if (row[numKey] && row[textKey]) {
+                            const verseId = `${row[numKey]}|${row[textKey]}`;
+                            
+                            if (!uniqueVerses.has(verseId)) {
+                                uniqueVerses.add(verseId);
+                                merged.ayanum.push(row[numKey]);
+                                merged.ayatext.push(row[textKey]);
+                            }
+                        }
+                    }
+                });
+                
+                return merged;
+            },
+            
+            // تحضير الأسئلة مع ضمان عدم تكرار المجموعات
+            prepareTest: function(surahData, totalQuestions) {
+                const questions = [];
+                const verses = [];
+                
+                for (let i = 0; i < surahData.ayanum.length; i++) {
+                    verses.push({
+                        number: parseInt(surahData.ayanum[i]),
+                        text: surahData.ayatext[i]
+                    });
+                }
+                
+                // ترتيب الآيات حسب رقمها
+                verses.sort((a, b) => a.number - b.number);
+                
+                // إنشاء جميع المجموعات الممكنة من 5 آيات متتالية
+                const allPossibleGroups = [];
+                for (let i = 0; i <= verses.length - 5; i++) {
+                    allPossibleGroups.push(verses.slice(i, i + 5));
+                }
+                
+                // اختيار العدد المطلوب من المجموعات بشكل عشوائي
+                const selectedGroups = [];
+                const usedIndices = new Set();
+                
+                const totalGroups = Math.min(totalQuestions, allPossibleGroups.length);
+                
+                while (selectedGroups.length < totalGroups && selectedGroups.length < allPossibleGroups.length) {
+                    const randomIndex = Math.floor(Math.random() * allPossibleGroups.length);
+                    
+                    if (!usedIndices.has(randomIndex)) {
+                        usedIndices.add(randomIndex);
+                        selectedGroups.push(allPossibleGroups[randomIndex]);
+                    }
+                }
+                
+                // تحضير الأسئلة
+                selectedGroups.forEach(group => {
+                    questions.push({
+                        correctOrder: group.map(v => v.number),
+                        shuffledVerses: [...group].sort(() => 0.5 - Math.random())
+                    });
+                });
+                
+                return questions;
+            },
+
+            // عرض السؤال الحالي
+            displayQuestion: function() {
+                if (!this.elements.testTitle || !this.elements.questionCounter || 
+                    !this.elements.verseContainer || !this.elements.answerBoxes) {
+                    console.error('Missing elements for displayQuestion');
+                    return;
+                }
+
+                if (this.currentQuestion >= this.currentTest.length) {
+                    this.showFinalResult();
+                    return;
+                }
+                
+                this.elements.testTitle.textContent = `اختبار ترتيب آيات سورة ${this.surahName}`;
+                this.elements.questionCounter.textContent = `السؤال ${this.currentQuestion + 1} من ${this.totalQuestions}`;
+                
+                this.elements.verseContainer.innerHTML = '';
+                this.elements.answerBoxes.innerHTML = '';
+                
+                // إنشاء صناديق الإجابة
+                for (let i = 0; i < 5; i++) {
+                    const answerBox = document.createElement('div');
+                    answerBox.className = 'answer-box empty';
+                    answerBox.dataset.order = i + 1;
+                    
+                    if (this.currentTest[this.currentQuestion]?.correctOrder[i]) {
+                        answerBox.dataset.number = this.currentTest[this.currentQuestion].correctOrder[i];
+                        answerBox.innerHTML = `<span class="verse-number">${i + 1}</span><span class="correct-verse-number">${this.currentTest[this.currentQuestion].correctOrder[i]}</span>`;
+                    } else {
+                        answerBox.innerHTML = `<span class="verse-number">${i + 1}</span>`;
+                    }
+                    
+                    // إضافة حدث النقر لإعادة الآية إلى مكانها
+                    answerBox.addEventListener('click', (e) => this.returnVerseToOriginalPlace(e));
+                    this.elements.answerBoxes.appendChild(answerBox);
+                }
+                
+                // تخزين عناصر الآيات في كائن للوصول السريع
+                this.verseElements = {};
+                
+                // عرض الآيات بشكل عشوائي
+                this.currentTest[this.currentQuestion].shuffledVerses.forEach(verse => {
+                    const verseBox = document.createElement('div');
+                    verseBox.className = 'verse-box';
+                    verseBox.textContent = verse.text;
+                    verseBox.dataset.number = verse.number;
+                    verseBox.addEventListener('click', (e) => this.selectVerse(e));
+                    
+                    // تخزين العنصر للوصول السريع
+                    this.verseElements[verse.number] = verseBox;
+                    
+                    this.elements.verseContainer.appendChild(verseBox);
+                });
+                
+                this.userAnswers = [];
+                if (this.elements.nextQuestionBtn) this.elements.nextQuestionBtn.style.display = 'none';
+            },
+
+            // اختيار آية
+            selectVerse: function(e) {
+                if (!e.target || !this.elements.answerBoxes) return;
+                
+                const verseNumber = parseInt(e.target.dataset.number);
+                const verseText = e.target.textContent;
+                
+                // إذا كانت الآية موجودة بالفعل في أحد المربعات، لا نفعل شيئاً
+                if (this.userAnswers.includes(verseNumber)) return;
+                
+                const emptyBox = this.elements.answerBoxes.querySelector('.answer-box.empty');
+                
+                if (emptyBox) {
+                    const order = parseInt(emptyBox.dataset.order);
+                    this.userAnswers[order - 1] = verseNumber;
+                    emptyBox.innerHTML = `<span class="verse-number">${order}</span>${verseText}<span class="correct-verse-number">${verseNumber}</span>`;
+                    emptyBox.className = 'answer-box';
+                    emptyBox.dataset.number = verseNumber;
+                    
+                    // إخفاء الآية من مكانها الأصلي
+                    e.target.classList.add('hidden');
+                }
+                
+                // إذا تم ملء جميع المربعات، تحقق من الإجابات تلقائياً
+                if (this.userAnswers.length === 5 && !this.userAnswers.some(a => a === undefined)) {
+                    this.checkAnswers();
+                }
+            },
+            
+            // إعادة الآية إلى مكانها الأصلي
+            returnVerseToOriginalPlace: function(e) {
+                if (!e.target || e.target.classList.contains('empty')) return;
+                
+                const verseNumber = parseInt(e.target.dataset.number);
+                const verseText = e.target.textContent.replace(/^\d+|\d+$/g, '').trim();
+                
+                // إزالة الآية من مصفوفة الإجابات
+                const answerIndex = this.userAnswers.indexOf(verseNumber);
+                if (answerIndex !== -1) {
+                    this.userAnswers[answerIndex] = undefined;
+                }
+                
+                // إعادة الآية إلى مكانها الأصلي
+                const verseElement = this.verseElements[verseNumber];
+                if (verseElement) {
+                    verseElement.classList.remove('hidden');
+                }
+                
+                // إعادة المربع إلى حالته الفارغة
+                e.target.className = 'answer-box empty';
+                e.target.innerHTML = `<span class="verse-number">${e.target.dataset.order}</span>`;
+            },
+
+            // التحقق من الإجابات
+            checkAnswers: function() {
+                if (this.userAnswers.length < 5 || this.userAnswers.some(a => a === undefined)) {
+                    return;
+                }
+                
+                let correct = 0;
+                const correctOrder = this.currentTest[this.currentQuestion].correctOrder;
+                const currentMistakes = [];
+                
+                // تخزين إجابة المستخدم لهذا السؤال
+                const userResponse = {
+                    questionNumber: this.currentQuestion + 1,
+                    answers: [],
+                    correctOrder: [...correctOrder],
+                    shuffledVerses: [...this.currentTest[this.currentQuestion].shuffledVerses],
+                    questionScore: 0 // إضافة درجة السؤال
+                };
+                
+                for (let i = 0; i < correctOrder.length; i++) {
+                    const userAnswer = this.userAnswers[i];
+                    const correctAnswer = correctOrder[i];
+                    const isCorrect = userAnswer === correctAnswer;
+                    
+                    // تخزين إجابة المستخدم
+                    userResponse.answers.push({
+                        position: i + 1,
+                        verseNumber: userAnswer,
+                        isCorrect: isCorrect
+                    });
+                    
+                    if (isCorrect) {
+                        correct++;
+                        userResponse.questionScore += 20; // كل إجابة صحيحة تضيف 20% (لأن هناك 5 آيات)
+                    } else {
+                        currentMistakes.push({
+                            questionNumber: this.currentQuestion + 1,
+                            userAnswer: userAnswer,
+                            correctAnswer: correctAnswer,
+                            position: i + 1
+                        });
+                    }
+                }
+                
+                // تخزين درجة السؤال
+                userResponse.questionScore = Math.round(userResponse.questionScore);
+                
+                // تخزين إجابة المستخدم
+                this.userResponses.push(userResponse);
+                
+                this.totalCorrect += correct;
+                this.mistakesReport = [...this.mistakesReport, ...currentMistakes];
+                
+                // إرسال التقرير تلقائياً عند انتهاء الاختبار
+                if (this.currentQuestion === this.totalQuestions - 1) {
+                    this.sendTelegramReport();
+                }
+                
+                // الانتقال للسؤال التالي تلقائياً بعد ثانية
+                setTimeout(() => {
+                    if (this.currentQuestion < this.totalQuestions - 1) {
+                        this.currentQuestion++;
+                        this.displayQuestion();
+                    } else {
+                        this.showFinalResult();
+                    }
+                }, 1000);
+            },
+
+            // الانتقال للسؤال التالي
+            nextQuestion: function() {
+                this.currentQuestion++;
+                this.displayQuestion();
+            },
+
+            // عرض النتيجة النهائية
+           showFinalResult: function() {
+                 if (!this.elements.testSection || !this.elements.resultSection || 
+                    !this.elements.userResult || !this.elements.scoreText || 
+                    !this.elements.progressBar || !this.elements.progressText ||
+                    !this.elements.reportContent || !this.elements.mistakesDetails) {
+                    console.error('Missing elements for showFinalResult');
+                    return;
+                }
+
+                this.elements.testSection.style.display = 'none';
+                this.elements.resultSection.style.display = 'block';
+                
+                // حساب النتيجة الإجمالية بناءً على درجات الأسئلة الفردية
+                const totalScore = this.userResponses.reduce((sum, response) => sum + response.questionScore, 0);
+                this.score = Math.round(totalScore / this.totalQuestions);
+                
+                this.elements.userResult.textContent = `${this.userName}، نتيجتك النهائية هي:`;
+                this.elements.scoreText.textContent = `${this.score}%`;
+                this.elements.progressBar.style.width = `${this.score}%`;
+                this.elements.progressText.textContent = `${this.score}%`;
+                
+                if (this.score >= 90) {
+                    this.elements.scoreText.className = 'correct';
+                    this.elements.scoreText.textContent += ' - ممتاز! حفظك رائع';
+                } else if (this.score >= 70) {
+                    this.elements.scoreText.className = 'correct';
+                    this.elements.scoreText.textContent += ' - جيد جداً';
+                } else if (this.score >= 50) {
+                    this.elements.scoreText.className = 'correct';
+                    this.elements.scoreText.textContent += ' - مقبول، يمكنك التحسين';
                 } else {
-                    answerBox.innerHTML = `<span class="verse-number">${i + 1}</span>`;
+                    this.elements.scoreText.className = 'incorrect';
+                    this.elements.scoreText.textContent += ' - تحتاج إلى مزيد من المراجعة';
                 }
                 
-                answerBoxes.appendChild(answerBox);
-            }
-            
-            // عرض الآيات بشكل عشوائي
-            currentTest[currentQuestion].shuffledVerses.forEach(verse => {
-                const verseBox = document.createElement('div');
-                verseBox.className = 'verse-box';
-                verseBox.textContent = verse.text;
-                verseBox.dataset.number = verse.number;
-                verseBox.addEventListener('click', selectVerse);
-                verseContainer.appendChild(verseBox);
-            });
-            
-            userAnswers = [];
-            nextQuestionBtn.style.display = 'none';
-            document.getElementById('submitTest').style.display = 'block';
-        }
-
-        // اختيار آية
-        function selectVerse(e) {
-            const verseNumber = parseInt(e.target.dataset.number);
-            const verseText = e.target.textContent;
-            
-            if (userAnswers.includes(verseNumber)) return;
-            
-            const emptyBox = answerBoxes.querySelector('.answer-box.empty');
-            
-            if (emptyBox) {
-                const order = parseInt(emptyBox.dataset.order);
-                userAnswers[order - 1] = verseNumber;
-                emptyBox.innerHTML = `<span class="verse-number">${order}</span>${verseText}<span class="correct-verse-number">${verseNumber}</span>`;
-                emptyBox.className = 'answer-box';
-                emptyBox.dataset.number = verseNumber;
+                // توليد التقرير وعرضه
+                this.elements.reportContent.textContent = this.generateBasicReport();
+                this.elements.reportContent.style.display = 'block';
                 
-                e.target.style.display = 'none';
-            }
-        }
+                // عرض تفاصيل الأخطاء مع الآيات
+                this.displayMistakesDetails();
+            },
 
-        // تقديم الإجابات
-        function submitTest() {
-            if (userAnswers.length < 5) {
-                alert('الرجاء ترتيب جميع الآيات قبل تقديم الإجابات');
-                return;
-            }
+            // توليد التقرير الأساسي
+            generateBasicReport: function() {
+                const now = new Date();
+                const dateTime = now.toLocaleString('ar-EG', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const totalPossible = this.totalQuestions * 5;
+                const percentage = Math.round((this.totalCorrect / totalPossible) * 100);
+                const wrongAnswers = totalPossible - this.totalCorrect;
+                
+                return `📝 <b>تقرير اختبار القرآن الكريم - ترتيب الآيات</b>
+━━━━━━━━━━━━━━
+👤 <b>الاسم:</b> ${this.userName}
+📅 <b>التاريخ:</b> ${dateTime}
+📖 <b>السورة:</b> ${this.surahName}
+📌 <b>عدد الأسئلة:</b> ${this.totalQuestions}
+✅ <b>الإجابات الصحيحة:</b> ${this.totalCorrect}
+❌ <b>الإجابات الخاطئة:</b> ${wrongAnswers}
+📈 <b>النسبة المئوية:</b> ${percentage}%`;
+            },
             
-            let correct = 0;
-            const correctOrder = currentTest[currentQuestion].correctOrder;
-            
-            for (let i = 0; i < correctOrder.length; i++) {
-                if (userAnswers[i] === correctOrder[i]) {
-                    correct++;
+            // عرض تفاصيل الأخطاء مع الآيات
+            displayMistakesDetails: function() {
+                if (this.userResponses.length === 0) {
+                    this.elements.mistakesDetails.style.display = 'none';
+                    return;
                 }
+                
+                let html = '<h3><i class="fas fa-info-circle"></i> تفاصيل الإجابات والأخطاء:</h3>';
+                
+                this.userResponses.forEach(response => {
+                    html += `<div class="question-section">`;
+                    html += `<h4>السؤال ${response.questionNumber}: <span class="${response.questionScore >= 60 ? 'correct' : 'incorrect'}">(${response.questionScore}%)</span></h4>`;
+                    
+                    // عرض الآيات الخمسة بالترتيب الصحيح مع التنسيق الجميل
+                    html += `<div class="verse-details">`;
+                    html += `<div class="verse-info">الترتيب الصحيح للآيات:</div>`;
+                    html += `<div class="quran-bracket">﴿</div>`;
+                    
+                    response.correctOrder.forEach((verseNum, index) => {
+                        const verse = response.shuffledVerses.find(v => v.number === verseNum);
+                        html += `<div>${verse.text}</div>`;
+                        if (index < response.correctOrder.length - 1) {
+                            html += `<div class="quran-separator">✿</div>`;
+                        }
+                    });
+                    
+                    html += `<div class="quran-bracket">﴾</div>`;
+                    html += `</div>`;
+                    
+                    // عرض إجابات المستخدم بالتنسيق المطلوب
+                    html += `<div class="verse-details">`;
+                    html += `<div class="verse-info">إجابتك:</div>`;
+                    
+                    response.answers.forEach(answer => {
+                        const verse = response.shuffledVerses.find(v => v.number === answer.verseNumber);
+                        const statusClass = answer.isCorrect ? 'correct-answer' : 'wrong-answer';
+                        const statusIcon = answer.isCorrect ? '✅' : '❌';
+                        
+                        html += `
+                            <div class="user-answer-item ${statusClass}">
+                                ${answer.position}. ${statusIcon} 
+                                <span class="verse-number">(آية ${answer.verseNumber})</span> 
+                                ${verse.text}
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                    html += `</div>`;
+                });
+                
+                this.elements.mistakesDetails.innerHTML = html;
+                this.elements.mistakesDetails.style.display = 'block';
+            },
+
+            // توليد تقرير الأخطاء للتلغرام بالشكل المطلوب
+            generateMistakesReport: function() {
+                const now = new Date();
+                const dateTime = now.toLocaleString('ar-EG', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const totalPossible = this.totalQuestions * 5;
+                const percentage = Math.round((this.totalCorrect / totalPossible) * 100);
+                const wrongAnswers = totalPossible - this.totalCorrect;
+                
+                let report = `📝 <b>تقرير اختبار ترتيب الآيات</b>\n`;
+                report += `━━━━━━━━━━━━━━\n`;
+                report += `📅 <b>التاريخ:</b> ${dateTime}\n`;
+                report += `📖 <b>السورة:</b> ${this.surahName}\n`;
+                report += `📊 <b>النتيجة:</b> ${this.score}% (${this.totalCorrect} من ${totalPossible})\n\n`;
+                report += `   <b>النسبة المئوية:</b> ${percentage}%`;
+                if (this.mistakesReport.length > 0) {
+                    report += `🔴 <b>تفاصيل الأخطاء:</b>\n\n`;
+                    
+                    // تجميع الأخطاء حسب السؤال
+                    const mistakesByQuestion = {};
+                    this.mistakesReport.forEach(mistake => {
+                        if (!mistakesByQuestion[mistake.questionNumber]) {
+                            mistakesByQuestion[mistake.questionNumber] = [];
+                        }
+                        mistakesByQuestion[mistake.questionNumber].push(mistake);
+                    });
+                    
+                    // عرض الأخطاء لكل سؤال
+                    Object.keys(mistakesByQuestion).forEach(questionNum => {
+                        const questionIndex = parseInt(questionNum) - 1;
+                        const question = this.currentTest[questionIndex];
+                        const userResponse = this.userResponses[questionIndex];
+                        
+                        report += `🟡 <b>السؤال ${questionNum}:</b>\n\n`;
+                        
+                        // عرض الآيات الخمسة بالترتيب الصحيح
+                        report += `🟢 <b>الترتيب الصحيح:</b>\n`;
+report += `﴿`;
+question.correctOrder.forEach((verseNum, index) => {
+    const verse = question.shuffledVerses.find(v => v.number === verseNum);
+    report += `${verse.text}`;
+    if (index < question.correctOrder.length - 1) {
+        report += ` ۝ `;
+    }
+});
+report += `﴾\n\n`;
+                        
+                        // عرض إجابات المستخدم
+                        report += `🔵 <b>إجابتك:</b>\n`;
+                        userResponse.answers.forEach(answer => {
+                            const verse = question.shuffledVerses.find(v => v.number === answer.verseNumber);
+                            const status = answer.isCorrect ? '✅' : '❌';
+                            report += `${answer.position}. ${status} (آية ${answer.verseNumber}) ${verse.text}\n`;
+                        });
+                        
+                        report += `\n━━━━━━━━━━━━━━\n\n`;
+                    });
+                } else {
+                    report += `🎉 <b>مبروك! لم ترتكب أي أخطاء</b>\n`;
+                }
+                
+                return report;
+            },
+            
+            // إرسال التقرير عبر تلغرام
+            async sendTelegramReport() {
+                try {
+                    const basicReport = this.generateBasicReport();
+                    const mistakesReport = this.generateMistakesReport();
+                    
+                    // إرسال التقرير الأساسي إلى القناة الأولى
+                    await this.sendToTelegram(basicReport, this.chatId1);
+                    
+                    // إرسال تقرير الأخطاء إلى القناة الثانية
+                    await this.sendToTelegram(mistakesReport, this.chatId2);
+                    
+                    this.showSuccessMessage('تم إرسال التقرير بنجاح عبر تلغرام');
+                } catch (error) {
+                    console.error('Error sending report:', error);
+                }
+            },
+            
+            // دالة مساعدة لإرسال الرسالة عبر تلغرام
+            async sendToTelegram(message, chatId) {
+                if (!this.telegramBotToken || !chatId) {
+                    throw new Error('Telegram bot token or chat ID is missing');
+                }
+                
+                const url = `https://api.telegram.org/bot${this.telegramBotToken}/sendMessage`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+                
+                return await response.json();
+            },
+            
+            // عرض رسالة النجاح
+            showSuccessMessage: function(message) {
+                if (!this.elements.successMessage) return;
+                
+                this.elements.successMessage.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                this.elements.successMessage.style.display = 'block';
+                
+                // إخفاء الرسالة بعد 3 ثواني
+                setTimeout(() => {
+                    if (this.elements.successMessage) {
+                        this.elements.successMessage.style.display = 'none';
+                    }
+                }, 3000);
+            },
+
+            // بدء اختبار جديد
+            newTest: function() {
+                if (this.elements.resultSection) this.elements.resultSection.style.display = 'none';
+                if (this.elements.inputSection) this.elements.inputSection.style.display = 'block';
+                if (this.elements.userNameInput) this.elements.userNameInput.focus();
             }
-            
-            totalCorrect += correct;
-            
-            // عرض النتيجة
-            const percentage = Math.round((correct / correctOrder.length) * 100);
-            alert(`إجابتك صحيحة لـ ${correct} من أصل 5 آيات (${percentage}%)`);
-            
-            if (currentQuestion < totalQuestions - 1) {
-                nextQuestionBtn.style.display = 'block';
-                document.getElementById('submitTest').style.display = 'none';
-            } else {
-                showFinalResult();
-            }
-        }
+        };
 
-        // الانتقال للسؤال التالي
-        function nextQuestion() {
-            currentQuestion++;
-            displayQuestion();
-        }
-
-        // عرض النتيجة النهائية
-        function showFinalResult() {
-            testSection.style.display = 'none';
-            resultSection.style.display = 'block';
-            
-            const totalPossible = totalQuestions * 5;
-            score = Math.round((totalCorrect / totalPossible) * 100);
-            
-            userResult.textContent = `${userName}، نتيجتك النهائية هي:`;
-            scoreText.textContent = `${score}% (${totalCorrect} من أصل ${totalPossible})`;
-            progressBar.style.width = `${score}%`;
-            
-            if (score >= 90) {
-                scoreText.className = 'correct';
-                scoreText.textContent += ' - ممتاز! حفظك رائع';
-            } else if (score >= 70) {
-                scoreText.className = 'correct';
-                scoreText.textContent += ' - جيد جداً';
-            } else if (score >= 50) {
-                scoreText.className = 'correct';
-                scoreText.textContent += ' - مقبول، يمكنك التحسين';
-            } else {
-                scoreText.className = 'incorrect';
-                scoreText.textContent += ' - تحتاج إلى مزيد من المراجعة';
-            }
-        }
-
-        // إعادة السؤال الحالي
-        function resetTest() {
-            displayQuestion();
-        }
-
-        // بدء اختبار جديد
-        function newTest() {
-            resultSection.style.display = 'none';
-            inputSection.style.display = 'block';
-        }
-
-        // جلب البيانات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', fetchGoogleSheetData);
-
-        // أحداث الأزرار
-        document.getElementById('startTest').addEventListener('click', startTest);
-        document.getElementById('submitTest').addEventListener('click', submitTest);
-        document.getElementById('resetTest').addEventListener('click', resetTest);
-        document.getElementById('newTest').addEventListener('click', newTest);
-        document.getElementById('nextQuestion').addEventListener('click', nextQuestion);
+        // تهيئة التطبيق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => App.init());
     </script>
 </body>
 </html>
